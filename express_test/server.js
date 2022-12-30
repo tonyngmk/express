@@ -1,20 +1,11 @@
 const express = require('express');
+const path = require('path');
+// const logger = require('./');
+// const app = express();
+// const moment = require('moment');
+// const members = require('./members')
+
 const app = express();
-const moment = require('moment');
-const members = [
-    {
-        id: 1,
-        name: 'Tony',
-        email: 'yoyo@gmail.com',
-        status: 'inactive'
-    },
-    {
-        id: 2,
-        name: 'Bob',
-        email: 'booboo@gmail.com',
-        status: 'active'
-    }
-]
 
 // Middleware
 // const logger = (req, res, next) => {
@@ -25,22 +16,9 @@ const members = [
 // Init middleware
 // app.use(logger);
 
-app.get('/api/members', (req, res) => {
-    // res.send('<h1>Hello world!</h1>');
-    res.json(members);
-});
-
-app.get('/api/members/:id', (req, res) => {
-    // res.send(req.params.id);
-    const found = members.some(member => member.id === parseInt(req.params.id));
-
-    if (found) {
-        res.json(members.filter(member => member.id === parseInt(req.params.id)));
-    } else {
-        res.status(400).json({msg: `Member ${req.params.id} not found`});
-    }
-    
-});
+// Set static folder
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/api/members', require('./routes/api/members'))
 
 const PORT = process.envPORT || 5000;
 

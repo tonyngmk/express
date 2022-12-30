@@ -1,23 +1,20 @@
 const express = require('express');
 const path = require('path');
-// const logger = require('./');
+const logger = require('./middleware/logger');
 // const app = express();
 // const moment = require('moment');
 // const members = require('./members')
 
 const app = express();
 
-// Middleware
-// const logger = (req, res, next) => {
-//     console.log(`${req.protocol}://${req.get('host')}${req.originalUrl}: ${moment().format()}`);
-//     next();
-// };
-
-// Init middleware
-// app.use(logger);
+// Body parser middlware
+app.use(express.json());
+app.use(express.urlencoded({extended: false}));
 
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Members API Route
 app.use('/api/members', require('./routes/api/members'))
 
 const PORT = process.envPORT || 5000;
